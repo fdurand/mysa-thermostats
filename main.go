@@ -138,11 +138,6 @@ func main() {
 
 	spew.Dump(credentialsForIdentity)
 
-	// cred := credentials.NewStaticCredentialsFromCreds(credentials.Value{AccessKeyID: *credentialsForIdentity.Credentials.AccessKeyId, SecretAccessKey: *credentialsForIdentity.Credentials.SecretKey, SessionToken: *credentialsForIdentity.Credentials.SessionToken})
-	// spew.Dump(cred)
-
-	// signer := v4.NewSigner(cred)
-
 	mySession.Config.WithCredentials(credentials.NewStaticCredentials(
 		*credentialsForIdentity.Credentials.AccessKeyId,
 		*credentialsForIdentity.Credentials.SecretKey,
@@ -159,8 +154,6 @@ func main() {
 
 	svc23 := iot.New(mySession)
 	svc23.AttachPolicy()
-
-	// spew.Dump(signer)
 
 	tr2 := &http2.Transport{
 		TLSClientConfig: &tls.Config{CipherSuites: []uint16{
@@ -189,18 +182,7 @@ func main() {
 			tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
 			tls.TLS_RSA_WITH_AES_128_CBC_SHA,
 			tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-
-			// tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
-			// tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-			// tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-			// tls.TLS_RSA_WITH_AES_128_CBC_SHA256,
-
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-			// tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
 		},
-			// PreferServerCipherSuites: true,
-			// InsecureSkipVerify:       true,
 			MinVersion: tls.VersionTLS12,
 			MaxVersion: tls.VersionTLS12,
 			NextProtos: []string{
@@ -213,37 +195,6 @@ func main() {
 	client := &http.Client{Transport: tr}
 
 	client2 := &http.Client{Transport: tr2}
-
-	// req.Header.Set("Sec-WebSocket-Protocol", "mqtt")
-	// req.Header.Set("Upgrade", "websocket")
-	// req.Header.Set("Connection", "Upgrade")
-	// req.Header.Set("Sec-WebSocket-Version", "13")
-	// req.Header.Set("accept-encoding", "gzip")
-	// req.Header.Set("user-agent", "okhttp/3.12.1")
-
-	// q := url.Values{}
-	// q.Add("ver", "2.8.2")
-	// q.Add("dev", "Nexus 5X")
-	// q.Add("os", "8.1.0")
-
-	// req.URL.RawQuery = q.Encode()
-
-	// cred := credentials.NewStaticCredentialsFromCreds(
-	// 	credentials.Value{
-	// 		AccessKeyID:     *credentialsForIdentity.Credentials.AccessKeyId,
-	// 		SecretAccessKey: *credentialsForIdentity.Credentials.SecretKey,
-	// 		SessionToken:    *credentialsForIdentity.Credentials.SessionToken,
-	// 	})
-
-	// signer := v4.NewSigner(cred)
-
-	// awsauth.Sign(req, awsauth.Credentials{
-	// 	AccessKeyID:     *credentialsForIdentity.Credentials.AccessKeyId,
-	// 	SecretAccessKey: *credentialsForIdentity.Credentials.SecretKey,
-	// 	SecurityToken:   *credentialsForIdentity.Credentials.SessionToken, // STS (optional)
-	// })
-
-	// spew.Dump(signer)
 
 	req10, err := http.NewRequest("GET", "https://app-prod.mysa.cloud/users/readingsForUser", nil)
 	if err != nil {
@@ -272,19 +223,6 @@ func main() {
 	json.NewDecoder(resp10.Body).Decode(&jsonResult)
 	spew.Dump(jsonResult)
 
-	// req, err := http.NewRequest("GET", "https://a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com", nil)
-	// if err != nil {
-	// 	log.Print(err)
-	// 	// os.Exit(1)
-	// }
-	// spew.Dump(req.Body)
-	// signer.DisableHeaderHoisting = true
-	// signer.DisableURIPathEscaping = true
-	// signer.DisableRequestBodyOverwrite = true
-	// signer.UnsignedPayload = true
-
-	// _, err = signer.Presign(req, nil, "iotdevicegateway", "us-east-1", 60*time.Minute, time.Now().Add(-5*time.Hour))
-
 	body := bytes.NewReader([]byte{})
 
 	endpoint := "a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com"
@@ -295,19 +233,9 @@ func main() {
 	req22 := &http.Request{
 		Method: "GET",
 		URL:    originalURL,
-		Header: map[string][]string{
-			// "Host": {"a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com"},
-			// 	"Sec-WebSocket-Protocol": {"mqtt"},
-			// 	"Upgrade":                {"websocket"},
-			// 	"Connection":             {"Upgrade"},
-			// 	"Sec-WebSocket-Version":  {"13"},
-			// 	"Sec-WebSocket-Key":      {key},
-			// 	"accept-encoding":        {"gzip"},
-			// 	"user-agent":             {"okhttp/3.12.1"},
-		},
+		Header: map[string][]string{},
 	}
 
-	// req.Header.Set("user-agent", "okhttp/3.12.1")
 	req22.Host = "a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com"
 	_, err = signer.Presign(
 		req22, body,
@@ -326,86 +254,6 @@ func main() {
 
 	resp, err2 := client.Do(req22)
 	spew.Dump(resp)
-
-	// req.URL.Path = "/mqtt"
-	// request.SanitizeHostForHeader(req)
-
-	// req.Header.Set("Sec-WebSocket-Protocol", "mqtt")
-	// req.Header.Set("Upgrade", "websocket")
-	// req.Header.Set("Connection", "Upgrade")
-	// req.Header.Set("Sec-WebSocket-Version", "13")
-	// req.Header.Set("Sec-WebSocket-Key", key)
-
-	// req.Header.Set("accept-encoding", "gzip")
-	// req.Header.Set("user-agent", "okhttp/3.12.1")
-	// req.Header.Set("host", "a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com")
-	// // req.Host = "a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com"
-
-	// req.Header.Set("Origin", "https://a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com")
-
-	// // spew.Dump(bob)
-	// // awsauth.Sign(req, awsauth.Credentials{
-	// // 	AccessKeyID:     *credentialsForIdentity.Credentials.AccessKeyId,
-	// // 	SecretAccessKey: *credentialsForIdentity.Credentials.SecretKey,
-	// // 	SecurityToken:   *credentialsForIdentity.Credentials.SessionToken,
-	// // })
-	// _, err = signer.Presign(req, nil, "iotdevicegateway", "us-east-1", 60*time.Minute, time.Now().Add(-5*time.Hour))
-
-	// resp, err2 := client.Do(req)
-	// spew.Dump(req.URL)
-	// // spew.Dump(credentialsForIdentity.Credentials.SessionToken)
-	// spew.Dump(resp.Status)
-	// spew.Dump(time.Now())
-
-	// spew.Dump(mySession)
-	// ps := presigner.New(mySession)
-	// wssURL, err := ps.PresignWssNow("a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com")
-
-	// o := &awsiot.Options{
-	// 	ClientID:                 "86db252d-8aa2-41b2-9b3e-ccc9cc98a9a7",
-	// 	Region:                   "us-east-1",
-	// 	BaseReconnectTime:        time.Millisecond * 50,
-	// 	MaximumReconnectTime:     time.Second * 2,
-	// 	MinimumConnectionTime:    time.Second * 2,
-	// 	Keepalive:                time.Second * 2,
-	// 	URL:                      wssURL,
-	// 	Debug:                    true,
-	// 	Qos:                      1,
-	// 	Retain:                   false,
-	// 	Will:                     &awsiot.TopicPayload{Topic: "notification", Payload: "{\"status\": \"dead\"}"},
-	// 	OfflineQueueing:          true,
-	// 	OfflineQueueMaxSize:      100,
-	// 	OfflineQueueDropBehavior: "oldest",
-	// 	AutoResubscribe:          true,
-	// 	OnConnectionLost: func(opt *awsiot.Options, err error) {
-	// 		fmt.Printf("Connection lost handler function called\n")
-	// 		newEndpoint, err := ps.PresignWssNow("a3q27gia9qg3zy-ats.iot.us-east-1.amazonaws.com")
-	// 		if err != nil {
-	// 			panic(err)
-	// 		}
-	// 		opt.URL = newEndpoint
-	// 	},
-	// }
-
-	// // resp, err2 = client.Do(req3)
-	// cli := awsiot.New(o)
-	// cli.Connect()
-
-	// cli.Subscribe("test", 1, messageHandler)
-
-	// sig := make(chan os.Signal, 1)
-	// signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
-
-	// tick := time.NewTicker(time.Second * 5)
-
-	// for {
-	// 	select {
-	// 	case <-sig:
-	// 		return
-	// 	case <-tick.C:
-	// 		cli.Publish("notification", 1, false, "{\"status\": \"tick\"}")
-	// 	}
-	// }
 
 }
 
