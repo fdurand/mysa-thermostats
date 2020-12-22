@@ -83,7 +83,7 @@ export SSLKEYLOGFILE=/root/sslkeylog.log
 
 Run mitmproxy in the same shell:
 
-mitmproxy --mode transparent --set client_certs=~/.mitmproxy/clients/orvibo.com.pem --set rawtcp  --ssl-insecure
+mitmproxy --mode transparent --set rawtcp  --ssl-insecure
 
 #### Configure your android phone
 
