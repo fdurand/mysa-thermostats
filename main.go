@@ -26,16 +26,16 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
-	"github.com/aws/aws-sdk-go/aws/session"
 	v4 "github.com/aws/aws-sdk-go/aws/signer/v4"
+
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cognitoidentity"
-	"github.com/aws/aws-sdk-go/service/iot"
 	"github.com/davecgh/go-spew/spew"
 )
 
 var (
-	username = flag.String("username", "", "Homemate username")
-	password = flag.String("password", "", "Homemate password")
+	username = flag.String("username", "", "Mysa username")
+	password = flag.String("password", "", "Mysa password")
 )
 
 func main() {
@@ -50,6 +50,7 @@ func main() {
 	csrp, _ := cognitosrp.NewCognitoSRP(*username, *password, "us-east-1_GUFWfhI7g", "19efs8tgqe942atbqmot5m36t3", nil)
 
 	cfg, _ := external.LoadDefaultAWSConfig()
+
 	cfg.Region = endpoints.UsEast1RegionID
 
 	cfg.Credentials = aws2.AnonymousCredentials
@@ -151,9 +152,6 @@ func main() {
 		*credentialsForIdentity.Credentials.SessionToken,
 	))
 	// Expiration
-
-	svc23 := iot.New(mySession)
-	svc23.AttachPolicy()
 
 	tr2 := &http2.Transport{
 		TLSClientConfig: &tls.Config{CipherSuites: []uint16{
